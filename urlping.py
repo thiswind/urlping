@@ -3,7 +3,6 @@
 import requests
 import datetime
 import time
-
 import argparse
 
 def do_ping(url):
@@ -22,7 +21,6 @@ def do_ping(url):
     print(line)
 
 def main():
-
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-u', '--url', required=True, help='url to ping')
