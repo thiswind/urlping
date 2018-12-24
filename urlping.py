@@ -12,7 +12,7 @@ def do_ping(url):
     end = datetime.datetime.now()
     elapsed = end - start
 
-    print('get response from:', url, '; status:', r.status_code, '; time elapsed(in seconds):', elapsed.total_seconds())
+    print('get response from:', url, '; status:', r.status_code, '; time elapsed(ms):', int(elapsed.total_seconds() * 1000))
 
 def main():
 
