@@ -19,7 +19,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-u', '--url', required=True, help='url to ping')
-    parser.add_argument('-t', '--times', type=int, required=False, help='total ping times')
+    parser.add_argument('-t', '--times', type=int, required=False, help='total ping times. if not set it goes infinity.')
 
     args = parser.parse_args()
 
