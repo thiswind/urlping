@@ -18,16 +18,21 @@ def main():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--url', required=True, help='url to ping')
-    parser.add_argument('--times', required=False, help='total ping times')
+    parser.add_argument('-u', '--url', required=True, help='url to ping')
+    parser.add_argument('-t', '--times', type=int, required=False, help='total ping times')
 
     args = parser.parse_args()
 
-    times = int(args.times)
+    times = 4 if not args.times else args.times
     url = args.url
 
-    for i in range(times):
+    while True:
         do_ping(url)
+
+        times -= 1
+        if times <= 0:
+            break
+        
         time.sleep(1)
         
 
