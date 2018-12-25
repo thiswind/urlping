@@ -7,7 +7,11 @@ import argparse
 
 def do_ping(url):
     start = datetime.datetime.now()
-    r = requests.get(url)
+    try:
+        r = requests.get(url)
+    except requests.exceptions.RequestException as e:
+        # A serious problem happened, like an SSLError or InvalidURL
+        return "Error: {}".format(e)
     end = datetime.datetime.now()
     elapsed = end - start
 
