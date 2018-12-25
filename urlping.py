@@ -24,6 +24,11 @@ def do_ping(url):
 
     print(line)
 
+    log_file_name = url[url.index(':') + 3:]
+
+    with open('{}.log'.format(log_file_name), 'a') as f:
+        f.write('{}\n'.format(line))
+
 def main():
     parser = argparse.ArgumentParser()
 
