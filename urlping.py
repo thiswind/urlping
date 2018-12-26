@@ -4,6 +4,7 @@ import requests
 import datetime
 import time
 import argparse
+from urllib.parse import urlparse
 
 def do_ping(url):
     start = datetime.datetime.now()
@@ -24,7 +25,9 @@ def do_ping(url):
 
     print(line)
 
-    log_file_name = url[url.index(':') + 3:]
+    url = urlparse(url)
+    
+    log_file_name = url.hostname
 
     with open('{}.log'.format(log_file_name), 'a') as f:
         f.write('{}\n'.format(line))
