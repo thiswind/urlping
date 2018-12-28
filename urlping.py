@@ -23,12 +23,12 @@ def do_ping(url):
     end = datetime.datetime.now()
     elapsed = end - start
 
-    if r.headers['content-type']:
+    if 'content-type' in r.headers.keys:
         content_type = r.headers['content-type']
     else:
         content_type = 'Unknown'
 
-    if r.headers['server']:
+    if 'server' in r.headers.keys:
         server = r.headers['server']
     else:
         server = 'Unknown'
