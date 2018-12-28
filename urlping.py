@@ -39,7 +39,7 @@ def main():
 
     parser.add_argument('url', type=str, metavar='url to ping', help='url to ping')
     parser.add_argument('-t', '--times', type=int, required=False, help='total ping times. if not set it goes infinity.')
-    parser.add_argument('-g', '--log', type=str, required=False, help='log file path, . for current path')
+    # parser.add_argument('-g', '--log', type=str, required=False, help='log file path, . for current path')
 
     args = parser.parse_args()
 
@@ -56,9 +56,9 @@ def main():
 
         print(line)
 
-        if log_path:
-            url = urlparse(url)
-            log_file_name = url.hostname
+        # if log_path:
+            # url = urlparse(url)
+            # log_file_name = url.hostname
             # with open('{}.log'.format(log_file_name), 'a') as f:
                 # f.write('{}\n'.format(line))
 
