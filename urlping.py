@@ -53,7 +53,7 @@ def main():
 
     args = parser.parse_args()
 
-    times = 3600 * 24 * 30 * 365 if not args.times else args.times
+    times = 3600 * 24 * 30 * 365 * 100 if not args.times else args.times
     url = args.url
     # log_path = args.log
 
