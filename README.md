@@ -1,6 +1,6 @@
 # Usage:
 
-python3 urlping.py --url http://baidu.com --times 5
+python3 urlping.py http://qq.com
 
 # Requirements
 
