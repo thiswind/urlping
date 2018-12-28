@@ -47,7 +47,7 @@ def do_ping(url):
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('url', type=str, metavar='url to ping', help='url to ping')
+    parser.add_argument('url', type=str, metavar='url', help='url to ping')
     parser.add_argument('-t', '--times', type=int, required=False, help='total ping times. if not set it goes infinity.')
     # parser.add_argument('-g', '--log', type=str, required=False, help='log file path, . for current path')
 
