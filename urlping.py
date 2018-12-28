@@ -8,6 +8,7 @@ import datetime
 import time
 import argparse
 from urllib.parse import urlparse
+import validators
 
 
 def do_ping(url):
@@ -18,15 +19,15 @@ def do_ping(url):
     except requests.exceptions.RequestException as e:
         return 'RequestException: {}'.format(e)
     except eventlet.Timeout as e:
-        return 'timeout: {}'.format(e)
+        return 'TIME OUT: {}'.format(e)
     end = datetime.datetime.now()
     elapsed = end - start
 
     line = '[{}] URL: {} CONTENT_TYPE: {} SERVER: {} STATUS: {} TIME(ms): {}'.format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
         r.url,
-        r.headers['content-type'],
-        r.headers['server'],
+        r.headers['content-type'] if r.headers['content-type'] else 'unknown',
+        r.headers['server'] if r.headers['content-type'] else 'unknown',
         r.status_code, 
         int(elapsed.total_seconds() * 1000)
     )
@@ -36,23 +37,30 @@ def do_ping(url):
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-u', '--url', required=True, help='url to ping')
+    parser.add_argument('url', type=str, metavar='url to ping', help='url to ping')
     parser.add_argument('-t', '--times', type=int, required=False, help='total ping times. if not set it goes infinity.')
+    parser.add_argument('-g', '--log', type=str, required=False, help='log file path, . for current path')
 
     args = parser.parse_args()
 
-    times = 4 if not args.times else args.times
+    times = 3600 * 24 * 30 * 365 if not args.times else args.times
     url = args.url
+    log_path = args.log
+
+    if not validators.url(url):
+        print('ERROR: invalid URL. Please tell me a valid url such as http://www.ynu.edu.cn')
+        return
 
     while True:
         line = do_ping(url)
 
         print(line)
 
-        # url = urlparse(url)
-        # log_file_name = url.hostname
-        # with open('{}.log'.format(log_file_name), 'a') as f:
-            # f.write('{}\n'.format(line))
+        if log_path:
+            url = urlparse(url)
+            log_file_name = url.hostname
+            # with open('{}.log'.format(log_file_name), 'a') as f:
+                # f.write('{}\n'.format(line))
 
         times -= 1
         if times <= 0:
@@ -62,4 +70,7 @@ def main():
         
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt as e:
+        print()
