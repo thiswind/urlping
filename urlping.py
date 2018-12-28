@@ -27,7 +27,7 @@ def do_ping(url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
         r.url,
         r.headers['content-type'] if r.headers['content-type'] else 'unknown',
-        r.headers['server'] if r.headers['content-type'] else 'unknown',
+        r.headers['server'] if r.headers['server'] else 'unknown',
         r.status_code, 
         int(elapsed.total_seconds() * 1000)
     )
