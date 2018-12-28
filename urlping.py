@@ -5,14 +5,21 @@ import datetime
 import time
 import argparse
 from urllib.parse import urlparse
+import eventlet
+
+eventlet.monkey_patch()
 
 def do_ping(url):
     start = datetime.datetime.now()
     try:
-        r = requests.get(url)
+        with eventlet.Timeout(10):  # timeout is 10 seconds
+            r = requests.get(url)
     except requests.exceptions.RequestException as e:
-        # A serious problem happened, like an SSLError or InvalidURL
-        return "Error: {}".format(e)
+        print('RequestException: {}'.format(e))
+        return
+    except eventlet.Timeout as e:
+        print('timeout: {}'.format(e))
+        return
     end = datetime.datetime.now()
     elapsed = end - start
 
