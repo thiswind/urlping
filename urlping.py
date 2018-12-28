@@ -45,7 +45,7 @@ def main():
 
     times = 3600 * 24 * 30 * 365 if not args.times else args.times
     url = args.url
-    log_path = args.log
+    # log_path = args.log
 
     if not validators.url(url):
         print('ERROR: invalid URL. Please tell me a valid url such as http://www.ynu.edu.cn')
