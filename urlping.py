@@ -1,43 +1,37 @@
-#/usr/bin/env python
+#/usr/bin/env python3
+import eventlet
+eventlet.monkey_patch()
+
 
 import requests
 import datetime
 import time
 import argparse
 from urllib.parse import urlparse
-import eventlet
 
-eventlet.monkey_patch()
 
 def do_ping(url):
     start = datetime.datetime.now()
     try:
         with eventlet.Timeout(10):  # timeout is 10 seconds
-            r = requests.get(url)
+            r = requests.get(url, allow_redirects=True)
     except requests.exceptions.RequestException as e:
-        print('RequestException: {}'.format(e))
-        return
+        return 'RequestException: {}'.format(e)
     except eventlet.Timeout as e:
-        print('timeout: {}'.format(e))
-        return
+        return 'timeout: {}'.format(e)
     end = datetime.datetime.now()
     elapsed = end - start
 
-    line = '[{}] url: {} status_code: {} elapsed_time(ms): {}'.format(
+    line = '[{}] URL: {} CONTENT_TYPE: {} SERVER: {} STATUS: {} TIME(ms): {}'.format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
         r.url,
+        r.headers['content-type'],
+        r.headers['server'],
         r.status_code, 
         int(elapsed.total_seconds() * 1000)
     )
 
-    print(line)
-
-    url = urlparse(url)
-    
-    log_file_name = url.hostname
-
-    with open('{}.log'.format(log_file_name), 'a') as f:
-        f.write('{}\n'.format(line))
+    return line
 
 def main():
     parser = argparse.ArgumentParser()
@@ -51,7 +45,14 @@ def main():
     url = args.url
 
     while True:
-        do_ping(url)
+        line = do_ping(url)
+
+        print(line)
+
+        # url = urlparse(url)
+        # log_file_name = url.hostname
+        # with open('{}.log'.format(log_file_name), 'a') as f:
+            # f.write('{}\n'.format(line))
 
         times -= 1
         if times <= 0:
