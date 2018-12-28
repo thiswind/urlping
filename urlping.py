@@ -23,12 +23,13 @@ def do_ping(url):
     end = datetime.datetime.now()
     elapsed = end - start
 
-    line = '[{}] URL: {} CONTENT_TYPE: {} SERVER: {} STATUS: {} TIME(ms): {}'.format(
+    line = '[{}] URL: {} SERVER: {} STATUS: {} SIZE(bytes): {} TIME(ms): {}'.format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
         r.url,
-        r.headers['content-type'] if 'content-type' in r.headers.keys() else 'Unknown' ,
+        # r.headers['content-type'] if 'content-type' in r.headers.keys() else 'Unknown' ,
         r.headers['server'] if 'server' in r.headers.keys() else 'Unknown',
         r.status_code, 
+        len(r.content),
         int(elapsed.total_seconds() * 1000)
     )
 
